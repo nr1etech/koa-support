@@ -14,11 +14,13 @@ import {
 import {Options as CorsOptions} from '@koa/cors';
 import {loggerContext, LoggerContextOptions} from './logger-context';
 import * as logging from '@nr1e/logging';
-
 const Koa = require('koa');
+
+export type RoutesFn = (router: Router) => void;
 
 export interface InitAppOptions {
   readonly loggingOptions: logging.LoggingConfig;
+  readonly routesFn: RoutesFn;
   readonly loggerContextOptions?: LoggerContextOptions;
   readonly errorHandlerOptions?: ErrorHandlerptions;
   readonly jwtAuthorizerOptions?: JwtAuthorizerOptions;
@@ -26,11 +28,10 @@ export interface InitAppOptions {
   readonly stringifyResponseOptions?: StringifyResponseOptions;
 }
 
-export async function init(
-  options: InitAppOptions
-): Promise<[Application, Router]> {
+export async function init(options: InitAppOptions): Promise<Application> {
   await logging.initialize(options?.loggingOptions);
   const router = new Router();
+  options.routesFn(router);
   const app = Koa();
   app
     .use(loggerContext(options?.loggerContextOptions))
@@ -55,5 +56,5 @@ export async function init(
     .use(stringifyResponse(options?.stringifyResponseOptions))
     .use(router.routes())
     .use(router.allowedMethods());
-  return [app, router];
+  return app;
 }
