@@ -50,6 +50,14 @@
     "koa": "^2.15.0",
     "tslib": "^2.6.2"
   },
+  "peerDependencies": {
+    "@koa/bodyparser": ">=5.0.0",
+    "@koa/cors": ">=5.0.0",
+    "@koa/router": ">=12.0.1",
+    "@koa/commons": ">=0.0.3",
+    "@nr1e/logging": ">=0.0.5",
+    "koa": ">= 2.15.0"
+  },
   "exports": {
     ".": {
       "import": "./index.js",
