@@ -1,6 +1,6 @@
 import Application from 'koa';
 import Router from '@koa/router';
-const cors = require('@koa/cors');
+import {default as cors} from '@koa/cors';
 import {bodyParser} from '@koa/bodyparser';
 import {errorLogger} from './error-logger';
 import {errorHandler, ErrorHandlerptions} from './error-handler';
@@ -14,7 +14,7 @@ import {
 import {Options as CorsOptions} from '@koa/cors';
 import {loggerContext, LoggerContextOptions} from './logger-context';
 import * as logging from '@nr1e/logging';
-const Koa = require('koa');
+import {default as Koa} from 'koa';
 
 export type RoutesFn = (router: Router) => void;
 
@@ -32,7 +32,7 @@ export async function init(options: InitAppOptions): Promise<Application> {
   await logging.initialize(options?.loggingOptions);
   const router = new Router();
   options.routesFn(router);
-  const app = Koa();
+  const app = new Koa();
   app
     .use(loggerContext(options?.loggerContextOptions))
     .on('error', errorLogger())
@@ -40,8 +40,8 @@ export async function init(options: InitAppOptions): Promise<Application> {
     .use(
       cors({
         origin: options?.corsOptions?.origin ?? '*',
-        headers: options?.corsOptions?.allowHeaders ?? '*',
-        methods: options?.corsOptions?.allowMethods ?? '*',
+        allowHeaders: options?.corsOptions?.allowHeaders ?? '*',
+        allowMethods: options?.corsOptions?.allowMethods ?? '*',
         credentials: options?.corsOptions?.credentials ?? true,
         maxAge: options?.corsOptions?.maxAge ?? 3600,
       })

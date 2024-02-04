@@ -1,9 +1,7 @@
 import {Context, Next} from 'koa';
-import * as logging from '@nr1e/logging';
 import {HttpMethod} from '@nr1e/commons/http';
 import crypto from 'crypto';
-
-const log = logging.getLogger('etag');
+import {getLogger} from '@nr1e/logging';
 
 export type HashType = 'sha1' | 'md5';
 export type Encoding = 'base64' | 'base64url' | 'hex';
@@ -21,6 +19,7 @@ export function etag(
   options?: EtagMiddlewareOptions
 ): (ctx: Context, next: Next) => Promise<void> {
   return async (ctx: Context, next: Next) => {
+    const log = getLogger('JwtAuthorizerMiddleware', ctx.logger);
     await next();
     if (
       (ctx.request.method === HttpMethod.GET ||
