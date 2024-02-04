@@ -1,5 +1,6 @@
 export * from './app-factory';
 export * from './cache-control';
+export * from './controller';
 export * from './error-handler';
 export * from './error-logger';
 export * from './etag';
