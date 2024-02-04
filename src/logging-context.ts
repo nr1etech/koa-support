@@ -1,20 +1,15 @@
 import {Context, Next} from 'koa';
-import {
-  getLogger,
-  getRootLogger,
-  Logger,
-  Level,
-  Context as LoggerContext,
-} from '@nr1e/logging';
+import {getLogger, Level, Context as LoggerContext} from '@nr1e/logging';
+import {getRootLoggerSafe, initialize} from '@nr1e/logging';
 
 /**
  * Options available to configure loggerContext.
  */
-export interface LoggerContextOptions {
+export interface LoggingContextOptions {
   /**
-   * The base logger to create children from. If not set, the root logger is used.
+   * The service name to use when initializing the root logger.
    */
-  readonly baseLogger?: Logger;
+  readonly svc: string;
 
   /**
    * The name given to any child logger. If not specified, the name used is "Logger".
@@ -38,15 +33,17 @@ export interface LoggerContextOptions {
  *
  * @param options configuration options
  */
-export function loggerContext(
-  options?: LoggerContextOptions
+export function loggingContext(
+  options: LoggingContextOptions
 ): (ctx: Context, next: Next) => Promise<void> {
-  let baseLogger = options?.baseLogger;
   return async (ctx: Context, next: Next): Promise<void> => {
-    if (!baseLogger) {
-      baseLogger = getRootLogger();
+    if (getRootLoggerSafe() === undefined) {
+      await initialize({
+        svc: options.svc,
+        level: options.level,
+      });
     }
-    const logger = getLogger(options?.loggerName ?? 'Logger', baseLogger);
+    const logger = getLogger(options.loggerName ?? 'Logger');
     if (options?.level) {
       logger.level(options.level);
     }

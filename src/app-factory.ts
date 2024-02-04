@@ -12,7 +12,7 @@ import {
   StringifyResponseOptions,
 } from './stringify-response';
 import {Options as CorsOptions} from '@koa/cors';
-import {loggerContext, LoggerContextOptions} from './logger-context';
+import {loggingContext, LoggingContextOptions} from './logging-context';
 import * as logging from '@nr1e/logging';
 import {default as Koa} from 'koa';
 
@@ -21,20 +21,19 @@ export type RoutesFn = (router: Router) => void;
 export interface InitAppOptions {
   readonly loggingOptions: logging.LoggingConfig;
   readonly routesFn: RoutesFn;
-  readonly loggerContextOptions?: LoggerContextOptions;
+  readonly loggerContextOptions?: LoggingContextOptions;
   readonly errorHandlerOptions?: ErrorHandlerptions;
   readonly jwtAuthorizerOptions?: JwtAuthorizerOptions;
   readonly corsOptions?: CorsOptions;
   readonly stringifyResponseOptions?: StringifyResponseOptions;
 }
 
-export async function init(options: InitAppOptions): Promise<Application> {
-  await logging.initialize(options?.loggingOptions);
+export function init(options: InitAppOptions): Application {
   const router = new Router();
   options.routesFn(router);
   const app = new Koa();
   app
-    .use(loggerContext(options?.loggerContextOptions))
+    .use(loggingContext(options.loggingOptions))
     .on('error', errorLogger())
     .use(errorHandler(options?.errorHandlerOptions))
     .use(

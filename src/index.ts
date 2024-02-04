@@ -4,5 +4,5 @@ export * from './error-handler';
 export * from './error-logger';
 export * from './etag';
 export * from './jwt-authorizer';
-export * from './logger-context';
+export * from './logging-context';
 export * from './stringify-response';

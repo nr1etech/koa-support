@@ -26,6 +26,9 @@ dependencies:
   koa:
     specifier: ^2.15.0
     version: 2.15.0
+  serverless-http:
+    specifier: ^3.2.0
+    version: 3.2.0
   tslib:
     specifier: ^2.6.2
     version: 2.6.2
@@ -3767,6 +3770,11 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
+
+  /serverless-http@3.2.0:
+    resolution: {integrity: sha512-QvSyZXljRLIGqwcJ4xsKJXwkZnAVkse1OajepxfjkBXV0BMvRS5R546Z4kCBI8IygDzkQY0foNPC/rnipaE9pQ==}
+    engines: {node: '>=12.0'}
+    dev: false
 
   /set-function-length@1.2.0:
     resolution: {integrity: sha512-4DBHDoyHlM1IRPGYcoxexgh67y4ueR53FKV1yyxwFMY7aCqcN/38M1+SwZ/qJQ8iLv7+ck385ot4CcisOAPT9w==}

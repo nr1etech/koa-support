@@ -48,6 +48,7 @@
     "@nr1e/logging": "^0.0.5",
     "jose": "^5.2.1",
     "koa": "^2.15.0",
+    "serverless-http": "^3.2.0",
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
