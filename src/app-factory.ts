@@ -15,6 +15,7 @@ import {Options as CorsOptions} from '@koa/cors';
 import {loggingContext, LoggingContextOptions} from './logging-context';
 import * as logging from '@nr1e/logging';
 import {default as Koa} from 'koa';
+import {default as serverless} from 'serverless-http';
 
 export type RoutesFn = (router: Router) => void;
 
@@ -56,4 +57,8 @@ export function init(options: InitAppOptions): Application {
     .use(router.routes())
     .use(router.allowedMethods());
   return app;
+}
+
+export function initLambda(options: InitAppOptions) {
+  return serverless(init(options));
 }
