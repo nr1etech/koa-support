@@ -18,8 +18,8 @@ dependencies:
     specifier: ^0.0.3
     version: 0.0.3
   '@nr1e/logging':
-    specifier: ^0.0.5
-    version: 0.0.5(pino@8.18.0)
+    specifier: ^0.0.8
+    version: 0.0.8(pino@8.18.0)
   jose:
     specifier: ^5.2.1
     version: 5.2.1
@@ -802,8 +802,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@nr1e/logging@0.0.5(pino@8.18.0):
-    resolution: {integrity: sha512-jKL/FvFkkiDn6T6nfFJ/+AHBjl43iehHcWviJB/Sj43i9wI7E4c3OShRr+Bwp6n1bOn3DD5R0Cb3OJlZiVHiHw==}
+  /@nr1e/logging@0.0.8(pino@8.18.0):
+    resolution: {integrity: sha512-cwbEpGkv0KqMYeO29zjxZl2fWwfrqFZHzmSkwzQ1xVqjOHfCmBNwwkz8qJV8UKJs9p10OiX9Kxp5mQwDLO6IOw==}
     peerDependencies:
       pino: ^8.17.2
     dependencies:

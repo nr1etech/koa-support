@@ -1,6 +1,6 @@
 import {Context, Next} from 'koa';
 import {getLogger, Level, Context as LoggerContext} from '@nr1e/logging';
-import {getRootLoggerSafe, initialize} from '@nr1e/logging';
+import * as logging from '@nr1e/logging';
 
 /**
  * Options available to configure loggerContext.
@@ -37,21 +37,23 @@ export function loggingContext(
   options: LoggingContextOptions
 ): (ctx: Context, next: Next) => Promise<void> {
   return async (ctx: Context, next: Next): Promise<void> => {
-    if (getRootLoggerSafe() === undefined) {
-      await initialize({
+    if (!logging.isInitialized()) {
+      ctx.logger = await logging.initialize({
         svc: options.svc,
         level: options.level,
       });
     }
-    const logger = getLogger(options.loggerName ?? 'Logger');
-    if (options?.level) {
-      logger.level(options.level);
+    if (options.loggerName) {
+      const logger = getLogger(options.loggerName ?? 'Logger');
+      if (options?.level) {
+        logger.level(options.level);
+      }
+      logger.ctx({
+        ip: ctx.request.ip,
+        ...options?.context,
+      });
+      ctx.logger = logger;
     }
-    logger.ctx({
-      ip: ctx.request.ip,
-      ...options?.context,
-    });
-    ctx.logger = logger;
     await next();
   };
 }
