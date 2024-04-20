@@ -13,15 +13,18 @@ export function errorHandler(
     try {
       await next();
       if (ctx.status === HttpStatusCode.NOT_FOUND) {
-        ctx.body = {
-          message: typeof ctx.body === 'string' ? ctx.body : 'Not found',
-        };
+        if (ctx.body === undefined) {
+          ctx.body = {
+            message: 'Not found',
+          };
+        }
       }
       if (ctx.status === HttpStatusCode.METHOD_NOT_ALLOWED) {
-        ctx.body = {
-          message:
-            typeof ctx.body === 'string' ? ctx.body : 'Method not allowed',
-        };
+        if (ctx.body === undefined) {
+          ctx.body = {
+            message: 'Method not allowed',
+          };
+        }
       }
     } catch (err) {
       let msg = 'Internal Server Error';
